@@ -1,0 +1,60 @@
+#include <iostream>
+#include <pthread.h>
+#include "BlackGPIO/BlackGPIO.h"
+#include "ADC/Adc.h"
+#include <iostream>
+#include <unistd.h>
+#include <time.h>
+#include <pthread.h>
+#include <sched.h>
+
+// Inclua as classes que achar necessario
+
+using namespace BlackLib;
+void *readValues(void *arg);
+void *setPriority1(void *arg);
+void *setPriority2(void *arg);
+
+int main(int argc, char * argv[])
+{
+	int res1, res2, res3;
+	//t1 le os valores e t2 e t3 atualizam os valores
+	pthread_t t1, t2, t3;
+	res1 = pthread_create(&t1, NULL, readValues, NULL);
+	res2 = pthread_create(&t2, NULL, setPriority1, NULL);
+	res3 = pthread_create(&t3, NULL, setPriority2, NULL);
+	if (res1 != 0 || res2 != 0 || res3 != 0) {
+        	perror("Criacao de uma das Threads falhou");
+        	exit(EXIT_FAILURE);
+    	}
+	//join? mutex?
+	return 0;
+}
+
+
+void *readValues(void *arg) {
+    ADC en1(AIN0);
+    ADC en2(AIN1);
+
+    int ret;
+
+    pthread_t this_thread = pthread_self();
+
+    struct sched_param params;
+    params.sched_priority = sched_get_priority_max(SCHED_FIFO);
+
+    ret = pthread_setschedparam(this_thread, SCHED_FIFO, &params);
+
+    if (ret != 0) {
+        std::cout << "Unsuccessful in setting thread realtime prio" << std::endl;
+        return;     
+    }
+
+    while (true) {
+        valueEntry1 = en1.getFloatValue();
+        valueEntry2 = en2.getFloatValue();
+
+        sleep(0.5);
+    }
+
+}
