@@ -1,26 +1,25 @@
 #include <iostream>
-//#include <pthread.h>
-#include <stdlib.h>
+#include <pthread.h>
 #include "BlackGPIO/BlackGPIO.h"
 #include "ADC/Adc.h"
 #include <iostream>
 #include <unistd.h>
 #include <time.h>
+#include <pthread.h>
 #include <sched.h>
-//#include <BlackADC.h>
+
 // Inclua as classes que achar necessario
-using namespace BlackLib;
+
 /*using namespace BlackLib;
 void *readValues(void *arg);
 void *setPriority1(void *arg);
 void *setPriority2(void *arg);*/
+
 int main(int argc, char * argv[])
 {
-	ADC ein1(AIN0);
-	float vPot1;
-	/*int res1, res2, res3;
+	//int res1, res2, res3;
 	//t1 le os valores e t2 e t3 atualizam os valores
-	pthread_t t1, t2, t3;
+	/*pthread_t t1, t2, t3;
 	res1 = pthread_create(&t1, NULL, readValues, NULL);
 	res2 = pthread_create(&t2, NULL, setPriority1, NULL);
 	res3 = pthread_create(&t3, NULL, setPriority2, NULL);
@@ -28,14 +27,8 @@ int main(int argc, char * argv[])
         	perror("Criacao de uma das Threads falhou");
         	exit(EXIT_FAILURE);
     	}*/
-	printf("Teste comp\n");
-	while(true){
-		ADC en1(AIN6);		
-		vPot1 = en1.getFloatValue();
-		printf("AnalogRead: %lf",vPot1);
-		sleep(2);
-	}
 	//join? mutex?
+	printf
 	return 0;
 }
 
